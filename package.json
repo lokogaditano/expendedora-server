@@ -1,6 +1,7 @@
 {
   "name": "expendedora-server",
   "version": "1.0.0",
+  "description": "Servidor SEINGUR con SendGrid",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -13,4 +14,3 @@
     "@sendgrid/mail": "^7.9.0"
   }
 }
-
