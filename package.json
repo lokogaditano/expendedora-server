@@ -2,13 +2,15 @@
   "name": "expendedora-server",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
     "express": "^4.18.2",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
     "@sendgrid/mail": "^7.9.0"
   }
 }
+
