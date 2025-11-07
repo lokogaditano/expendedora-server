@@ -1,5 +1,5 @@
 import express from "express";
-import nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
 import cors from "cors";
 import dotenv from "dotenv";
 
@@ -9,21 +9,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 app.post("/enviar", async (req, res) => {
   try {
     const { nombre, email, telefono, seguro, aseguradora, mensaje } = req.body;
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_PASS
-      }
-    });
-
-    await transporter.sendMail({
-      from: `"SEINGUR" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
+    const msg = {
+      to: "TU_CORREO@gmail.com",      // Aquí pones tu correo donde quieres recibir los datos
+      from: "TU_CORREO@gmail.com",    // Debe ser un correo verificado en SendGrid
       subject: `Nueva solicitud de seguro: ${seguro}`,
       html: `
         <h2>Solicitud de Contratación</h2>
@@ -33,8 +27,10 @@ app.post("/enviar", async (req, res) => {
         <p><b>Seguro:</b> ${seguro}</p>
         <p><b>Aseguradora:</b> ${aseguradora}</p>
         <p><b>Mensaje:</b> ${mensaje}</p>
-      `
-    });
+      `,
+    };
+
+    await sgMail.send(msg);
 
     res.status(200).send("Correo enviado correctamente ✅");
   } catch (error) {
